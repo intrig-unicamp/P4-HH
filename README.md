@@ -1,11 +1,10 @@
 # Heavy-Hitter Detection using Inter Packt Gap (IPG)
-In this project, we take a completely different direction to detect Heavy-Hitter flows: keep track of per-flow Inter Packet Gap (IPG) metrics instead of packet counts. 
-HH flows can be characterized by small IPG metrics calculated as a function (e.g. weighted average) of the inter-packet time intervals. 
+In this project, we take a completely different direction to detect Heavy-Hitter flows: keep track of per-flow Inter Packet Gap (IPG) metrics instead of packet counts. HH flows can be characterized by small IPG metrics calculated as a function (e.g. weighted average) of the inter-packet time intervals. 
 The ``heaviness'' (i.e. throughput over time) of a packet flow can be approximated by relating the average packet size to the observed IPG values. 
 This approach does not require a measurement interval to be set upfront, thus eliminating common shortfalls of windows-based algorithms. 
 
 ## Implementation in TNA P4_16
-The complete TNA P4_16 code can be find in "P4-TNA-HeavyHitter" folder. The code is succesfullfy compiled on Tofino Wedge100BF-32X switch. This version has been succesfully tested to detect heavy-hitter flows with CAIDA traces 2016 (10 Gbps link) using TRex Realistic Traffic Generator.  
+Our proposed IPG based HH detection can be fit with most of the exsiting packet count based data structcures to detect HH. For HH implementation on a Tofino hardware (HW) switch using IPG instead of packet count, we leverage the HeavyKeeper(HK) algorithm, you can find HK paper <a href="https://www.usenix.org/conference/atc18/presentation/gong">here</a>, which is amenable to programmable HW. The complete TNA P4_16 code can be find in "P4-TNA-HeavyHitter" folder. The code is succesfullfy compiled on Tofino Wedge100BF-32X switch. This version has been succesfully tested to detect heavy-hitter flows with CAIDA traces 2016 (10 Gbps link) using TRex Realistic Traffic Generator.  
 
 ### Exponential Weighted Moving Average (EWMA) of IPG vs flow throughuts for different size of Time-Windows using CAIDA traffic Trace-2016
 For 1 Sec Time-Window:
