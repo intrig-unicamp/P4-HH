@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ISP_file = '/path/of/CAIDA_pcap/xyz.csv'
+ISP_file = '/path/of/CAIDA/xyz.csv'
 
 import csv
 from matplotlib import pyplot as plt
