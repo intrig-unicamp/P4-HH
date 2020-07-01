@@ -17,7 +17,7 @@ For 10 Secs Time-Window
 
 <img src="Figures/Throughput_vs_IPGw/10Secs_TW_001.png" alt="alt text" width="300" height="270"> <img src="Figures/Throughput_vs_IPGw/10Secs_TW_002.png" alt="alt text" width="300" height="270">
 
-### EWMA of IPG with two different smoothing contants vs Simple Moving Average for different number of flows using CAIDA traffic Trace (2016)
+### EWMA of IPG with two different values of degree of weighting decrease vs Simple Moving Average for different number of flows using CAIDA traffic Trace (2016)
 
 <img src="Figures/SMA_EMA/f1.png" alt="alt text" width="300" height="270"> <img src="Figures/SMA_EMA/f2.png" alt="alt text" width="300" height="270"> <img src="Figures/SMA_EMA/f3.png" alt="alt text" width="300" height="270"> <img src="Figures/SMA_EMA/f4.png" alt="alt text" width="300" height="270"> <img src="Figures/SMA_EMA/f5.png" alt="alt text" width="300" height="270"> <img src="Figures/SMA_EMA/f6.png" alt="alt text" width="300" height="270">
 
