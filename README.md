@@ -4,7 +4,7 @@ The ``heaviness'' (i.e. throughput over time) of a packet flow can be approximat
 This approach does not require a measurement interval to be set upfront, thus eliminating common shortfalls of windows-based algorithms. 
 
 ---------
-**Benefits to use Inter Packet Gap for HH detection:**
+**Major Benefits to use Inter Packet Gap for HH detection:**
 
 * Support Push-based strategy, where data-plane exports the requred information directly to the controller to get the fast reaction. Using this strategy we can easily reduce the communication overhead between controller and data-plane. Most of the exiting works are based on pull based approach, where controller retrieves the data-plane statistics, which can be cause to increase overhead.
 
