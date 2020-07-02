@@ -3,6 +3,17 @@ In this project, we take a completely different direction to detect Heavy-Hitter
 The ``heaviness'' (i.e. throughput over time) of a packet flow can be approximated by relating the average packet size to the observed IPG values. 
 This approach does not require a measurement interval to be set upfront, thus eliminating common shortfalls of windows-based algorithms. 
 
+---------
+**Benefits to use Inter Packet Gap for HH detection:**
+
+* Support Push-based strategy, where data-plane exports the requred information directly to the controller to get the fast reaction. Using this strategy we can easily reduce the communication overhead between controller and data-plane. Most of the exiting works are based on pull based approach, where controller retrieves the data-plane statistics, which can be cause to increase overhead.
+
+* Since HH flows can be characterized by small IPG metrics calculated as a function (e.g. weighted average) of the inter-packet time intervals as comapred to counters, we do not require any controller intervention to reset data-structure memory maintined in data-plane. 
+
+* This approach does not require a measurement interval to time-window, thus eliminating common shortfalls of windows-based algorithms such as to detect hidden heavy hitters.  
+
+---------
+
 ## Implementation in TNA P4_16
 Our proposed IPG based HH detection can be fit with most of the exsiting packet count based data structcures to detect HH. For HH implementation on a Tofino hardware (HW) switch using IPG instead of packet count, we leverage the HeavyKeeper(HK) algorithm, you can find HK paper <a href="https://www.usenix.org/conference/atc18/presentation/gong">here</a>, which is amenable to programmable HW. The complete TNA P4_16 code can be find in "P4-TNA-HeavyHitter" folder. The code is succesfullfy compiled on Tofino Wedge100BF-32X switch. This version has been succesfully tested to detect heavy-hitter flows with CAIDA traces 2016 (10 Gbps link) using TRex Realistic Traffic Generator.  
 
