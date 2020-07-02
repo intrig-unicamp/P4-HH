@@ -10,7 +10,7 @@ This approach does not require a measurement interval to be set upfront, thus el
 
 * Since HH flows can be characterized by small IPG metrics calculated as a function (e.g. weighted average) of the inter-packet time intervals as comapred to counters, we do not require any controller intervention to reset data-structure memory maintined in data-plane. 
 
-* This approach does not require a measurement interval to time-window, thus eliminating common shortfalls of windows-based algorithms such as to detect hidden heavy hitters.  
+* This approach does not require a measurement interval or time-window, thus eliminating common shortfalls of windows-based algorithms such as to detect hidden heavy hitters.  
 
 ---------
 
