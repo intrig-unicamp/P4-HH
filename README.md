@@ -37,3 +37,7 @@ For 10 Secs Time-Window
 
 <img src="Figures/SMA_EMA/f1.png" alt="alt text" width="300" height="270"> <img src="Figures/SMA_EMA/f2.png" alt="alt text" width="300" height="270"> <img src="Figures/SMA_EMA/f3.png" alt="alt text" width="300" height="270"> <img src="Figures/SMA_EMA/f4.png" alt="alt text" width="300" height="270"> <img src="Figures/SMA_EMA/f5.png" alt="alt text" width="300" height="270"> <img src="Figures/SMA_EMA/f6.png" alt="alt text" width="300" height="270">
 
+----------------------
+If you find this useful, please don't forget to star ⭐️ the repo, as this will help to promote the project.
+Follow us on GitHub to keep updated about this project and others. 
+----------------------
