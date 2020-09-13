@@ -91,6 +91,9 @@ class SpaceSavingSimulator:
 
        if TS_c < TS_l:
            IPG_c = (524287 - TS_l) + TS_c
+           
+           NClocks += 1
+           
            '''
            # another stratgy to apply for select HH as persistent in time
            if IPG_w <= 15000:
