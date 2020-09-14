@@ -19,7 +19,7 @@ Our proposed IPG based HH detection can be fit with most of the existing packet 
 
 
 ## Implementation of SpaceSaving Algorithm using IPG instead of Packet Count
-We also implement our proposed idea using SpaceSaving Algorithm. SpaceSaving is a well known algorithm to detect top-k flows, you can find the paper <a href="https://dl.acm.org/doi/10.1007/978-3-540-30570-5_27">here</a>. However, in this algorithm, packet count is the basic idea to find HH. We use this algorithm with IPG instead of packet count. As we know, due to the entire table scanning for each incoming packet, implement this algorithm on the programmable data plane can be difficult. Therefore, we implement this on python based simulator to validate our idea. The complete code can be find "SpaceSaving-IPG" folder.
+We also implement our proposed idea using SpaceSaving Algorithm. SpaceSaving is a well known algorithm to detect top-k flows, you can find the paper <a href="https://dl.acm.org/doi/10.1007/978-3-540-30570-5_27">here</a>. However, in this algorithm, packet count is the basic idea to find HH. We use this algorithm with IPG instead of packet count. As we know, due to the entire table scanning for each incoming packet, implement this algorithm on the programmable data plane can be difficult. Therefore, we implement this on python based simulator to validate our idea. The complete code can be find "Space-Saving" folder.
         
         
 ### Exponential Weighted Moving Average (EWMA) of IPG vs flow throughputs for different size of Time-Windows using CAIDA traffic Trace-2016
