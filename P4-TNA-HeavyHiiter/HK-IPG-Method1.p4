@@ -18,16 +18,16 @@ control SwitchIngress(
 
         bit<13> mIndex;
 
-        /*********** Math Unit Functions ******************************/
+        /*********** Math Unit Functions *******************************/
 
         MathUnit<bit<16>>(MathOp_t.MUL, 1, 512) right_shift_by_9;
 
-        /****** Register definition ***********************************/
+        /****** Register definition ************************************/
 
         Register <bit<32>, _> (32w8192)  rFlowTracker ;
         Register <bit<16>, _> (32w8192)  rIPG_w       ;
         Register <bit<16>, _> (32w8192)  rTS          ;
-        Register <bit<8>,  _> (32w8192)  rFL          ; 
+        Register <bit<8>,  _> (32w8192)  rFL          ;
         Register <bit<1>,  _> (32w8192)  rIPGflag     ;
 
         /******** Only for computation *******************************/
@@ -35,7 +35,7 @@ control SwitchIngress(
         Register <bit<32>, _> (32w1)     rIPGcCal     ;
 
        /******** Flow ID extraction ***********************************/
-        
+
         action extract_flow_id () {
 
              meta.hash_meta.flowId[31:0]   = hdr.ipv4.srcAddr ;
@@ -98,7 +98,7 @@ control SwitchIngress(
                   value = 7000;
           }
        };
- 
+
        /******************* Compute Flow Length  **********************/
 
        RegisterAction<bit<8>, bit<13>, bit<8>>(rFL) rFL_action_1 = {
@@ -133,7 +133,7 @@ control SwitchIngress(
                   if (value > (bit<16>) (meta.hash_meta.TS[28:19])) {
                      tmp = value + 0x8000;
                      readvalue = tmp;
-                  } else { tmp = value; readvalue = tmp;} 
+                  } else { tmp = value; readvalue = tmp;}
                   value = (bit<16>) (meta.hash_meta.TS[28:19]);
           }
        };
@@ -202,9 +202,9 @@ control SwitchIngress(
 
        RegisterAction<bit<16>, bit<13>, bit<8>>(rIPG_w) rIPG_w_action_3 = {
               void apply(inout bit<16> value, out bit<8> readvalue){
-                 
+
                     /* set rate to increase the IPG_w value, different schemes
-                       can be to increase the precision */  
+                       can be to increase the precision */
                     if (value > 10000){
                       readvalue = 1;}
                     else {readvalue = 2;}
@@ -232,24 +232,24 @@ control SwitchIngress(
                  meta.hash_meta.FlowTrackerFlag = rFlowTracker_action.execute(mIndex);
        }
 
-     /**************************** Apply *********************************************************************/ 
+     /**************************** Apply *********************************************************************/
 
-      apply { 
+      apply {
 
         if (hdr.tcp.isValid()) {
 
      /******** Preproecssing for HH detection ************************/
 
-        extract_flow_id()                                 ;   
-        compute_FlowID()                                  ; 
-        compute_FlowIndex_and_set_IPGflag()               ; 
+        extract_flow_id()                                 ;
+        compute_FlowID()                                  ;
+        compute_FlowIndex_and_set_IPGflag()               ;
         meta.hash_meta.TS = ig_intr_md.ingress_mac_tstamp ;
         meta.hash_meta.FL = 2                             ;
 
     /************************* Case I *******************************/
 
       if ( meta.hash_meta.IPGflag == 0 || ig_intr_md.resubmit_flag == 1 ) {
-          
+
           rFlowTracker_action_1.execute(mIndex);
           rTS_action_1.execute(mIndex);
           rIPG_w_action_1.execute(mIndex);
@@ -257,16 +257,16 @@ control SwitchIngress(
      }
      else {
           check_FT_flag();
-          
+
           /****************** Case II  ******************************/
 
           if (meta.hash_meta.FlowTrackerFlag == 0) {
-                  
+
                   computeTS_last();
                   if (meta.hash_meta.TS_last[15:15] == 0x1) {
                       computeTS_current();
                       meta.hash_meta.Diff = 1024 - meta.hash_meta.TS_last_new;
-                      computeIPGc_2_1(); 
+                      computeIPGc_2_1();
                       meta.hash_meta.IPGc_tmp = rIPGcCal_action_2.execute(0);
                       if (meta.hash_meta.IPGc_tmp == 1) {
                           meta.hash_meta.IPG_w_flag_2 = rIPG_w_action_1_2.execute(mIndex);
@@ -275,7 +275,7 @@ control SwitchIngress(
                           meta.hash_meta.IPG_w_flag_2 = rIPG_w_action_2_2.execute(mIndex);
                       }
                       meta.hash_meta.FL = rFL_action1_2.execute(mIndex);
-                
+
                   } else {
                       computeTS_current();
                       computeIPGc_2_2();
@@ -287,30 +287,30 @@ control SwitchIngress(
                           meta.hash_meta.IPG_w_flag_2 = rIPG_w_action_2_2.execute(mIndex);
                       }
                       meta.hash_meta.FL = rFL_action2_2.execute(mIndex);
-                      
+
                   }
 
           }
           /******************** Case III *******************************************/
-         else { 
+         else {
                   /*** IPGw Calculation  *********************************/
 
                   meta.hash_meta.IPG_w_flag_3 = rIPG_w_action_3.execute(mIndex);
 
-                  /****** Resubmission pkt *******************************/          
-         
+                  /****** Resubmission pkt *******************************/
+
                   if (meta.hash_meta.IPG_w_flag_3 == 1) {
                         //meta.resubmit_data.port_id = port;
                         ig_intr_dprsr_md.resubmit_type = 1;
                   }
-         
+
                   /*******************************************************/
-                  } 
-               } 
+                  }
+               }
             }
 
         /***** For analysis, only HH flows can be forwarded to the output port ********/
- 
+
         if (ig_intr_dprsr_md.resubmit_type == 0) {
               if (meta.hash_meta.FL == 1) {
                      ig_tm_md.ucast_egress_port = port; }
@@ -345,5 +345,3 @@ control SwitchIngress(
 
 
     /************************************* End ************************************************/
-
-
