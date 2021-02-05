@@ -307,13 +307,6 @@ control SwitchIngress(
                           meta.hash_meta.IPGccc = meta.hash_meta.IPGc << 8;
                           meta.hash_meta.IPG_w_flag_2 = rIPG_w_action_2_2.execute(mIndex);
                       }
-                  
-                  // meta.hash_meta.test16 = (bit<48>) (meta.hash_meta.IPG_w_flag_2) ;
-                  //meta.hash_meta.test16 = (bit<48>) (meta.hash_meta.TS_current) ;
-                  //meta.hash_meta.test16 = (bit<48>) (meta.hash_meta.TS);
-                  // meta.hash_meta.test16 = (bit<48>) (meta.hash_meta.IPGc);
-                  // meta.hash_meta.test16 = (bit<48>) (meta.hash_meta.IPGccc) ;
-                  //test16();
 
                   }
 
