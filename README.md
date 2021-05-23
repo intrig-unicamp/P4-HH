@@ -10,13 +10,17 @@ Our proposed IPG based HH detection can be fit with most of the existing packet 
 ## How to test HH algorithm using Simulator
 To test our algorithm on simulator, we develop a python based simulator to run our HH algorithm using real traces. The steps are as follows.
 
-1. First, go to the folder ```HH-IPG-Simulator ``` 
+1. Clone the repository
+
+```git clone https://github.com/intrig-unicamp/P4-HH.git``` 
+
+2. Then, go to the folder ```HH-IPG-Simulator ``` 
 
 ```
 cd HH-IPG-Simulator
 ```
 
-2. There are some parameters, which we need to set before performing the tests.   
+3. There are some parameters, which we need to set before performing the tests.   
 
 ```
 pythonw results.py --help
@@ -39,17 +43,23 @@ optional arguments:
                         degree of weighting decrease in percentage for EWMA
                         calculation (default: 98)
 ```
-We can set the ```flow definition``` for HH detection. For e.g., if we choose 1, the algorithm will set the flow Id based on 5 tuple. By default, algorithm set 1 for flow definition. Aonother parameter is ```wondow size```. Window size inidicates the measuring time interval in seconds. By default, the window size is set as 1 Sec. Also, for ```HH threshold```, we can set this in Mbps and by default the setting is 5 Mbps. We use Exponential Weighting Moving Average (EWMA) of IPG values of a flow, the degree of weighting decrease can be set, which impact on oeverall accuracy. The default value is 98. The best accuracy can be analyzed by setting  ```weighting decrease``` as 98 or 99. However, for lower HH threhsold, such as 1 Mbps or below, we need to consider ```weighting decrease``` around between 90-95.           
+We can set the ```flow definition``` for HH detection. For e.g., if we choose 1, the algorithm will set the flow Id based on 5 tuple. By default, algorithm set 1 for flow definition. Aonother parameter is ```wondow size```. Window size inidicates the measuring time interval in seconds. By default, the window size is set as 1 Sec. 
+
+
+Also, for ```HH threshold```, we can set this in Mbps and by default the setting is 5 Mbps. We use Exponential Weighting Moving Average (EWMA) of IPG values of a flow, the degree of weighting decrease can be set, which impact on oeverall accuracy. The default value is 98. The best accuracy can be analyzed by setting  ```weighting decrease``` as 98 or 99. However, for lower HH threhsold, such as 1 Mbps or below, we need to consider ```weighting decrease``` around between 90-95.           
 
 Example:
-```pythonw results.py --hh_threhsold 10 --weighting_decrease 99 --windowsize 1```
+
+```
+pythonw results.py --hh_threhsold 10 --weighting_decrease 99 --windowsize 1
+```
 
 
-3. For some quick evaluation tests, we downloaded some WIDE backbone traces from <a href="https://mawi.wide.ad.jp/mawi/ditl/ditl2020-G/">MAWI20</a>. You can find the CSV files as follows: 
+4. For some quick evaluation tests, we downloaded some WIDE backbone traces from <a href="https://mawi.wide.ad.jp/mawi/ditl/ditl2020-G/">MAWI20</a>. You can find the CSV files as follows: 
 
 ```cd HH-IPG-Simulator/OUTPUT_DATASET/1_SEC_MAWI_CSV/ ```
 
-4. To gnerate the new CSV files from PCAP traces, we can use the file ```dataset.sh``` by passing three arguments:
+5. To gnerate the new CSV files from PCAP traces, we can use the file ```dataset.sh``` by passing three arguments:
 
 ```
    DURATION : provide integer value to denote the time-window size in sec
