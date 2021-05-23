@@ -86,7 +86,7 @@ Example:
 As mentioned above for performing accruacy test to get F1 Score, Recall and Precision. There are two other tests which we can performed using file 
 ```results.py```.
 
-1. First test can be performed to analyze the correlation between ```weighted IPG or Tau metric``` and ```Flow Size```. The following function can be 
+1. The first test can be performed to analyze the correlation between ```weighted IPG or Tau metric``` and ```Flow Size```. The following function can be 
 called:
 
 ```
@@ -108,7 +108,7 @@ def graphCorrFeatures(ax=None):
 
 The file ```corr_dataset.py``` for prearinf data set to analyze correlation. 
 
-2. The Second test is used to anaylze the missed heavy hitter (or hidden heavy hitters) due to the disjoint time window. 
+2. The second test is used to anaylze the missed heavy hitter (or hidden heavy hitters) due to the disjoint time window. 
 We can call the function ```resultMissedHHFlows``` using ```results.py``` to perform the test.  
 
 
