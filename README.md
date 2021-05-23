@@ -51,6 +51,17 @@ Example:
 
 ```
 pythonw results.py --hh_threhsold 10 --weighting_decrease 99 --windowsize 1
+
+Example Outputs:
+Total flows : 3931
+Number of true HH : 84
+False positives for HK-IPG: 3
+False negatives for HK-IPG: 7
+Precision: 0.962500
+Recall: 0.916667
+f1score: 0.939024
+False positive rate: 0.000780
+False negative rate: 0.083333
 ```
 
 
@@ -68,6 +79,37 @@ pythonw results.py --hh_threhsold 10 --weighting_decrease 99 --windowsize 1
 Example:
 
 ```./dataset.sh 1 locate/pcap/file file_name.pcap ```
+
+
+## Tests
+
+As mentioned above for performing accruacy test to get F1 Score, Recall and Precision. There are two other tests which we can performed using file 
+```results.py```.
+
+1. First test can be performed to analyze the correlation between ```weighted IPG or Tau metric``` and ```Flow Size```. The following function can be 
+called:
+
+```
+def graphCorrFeatures(ax=None):
+
+    CorrDataset(ISP_file, str(args.flow_definition), memorySlots, str(args.windowsize), str(args.hh_threhsold))
+    data = pd.read_csv("CorrDataset.csv")
+    fig,ax=plt.subplots(figsize=(10,8))
+    #corr = data.corr(method='pearson')
+    corr = data.corr(method='spearman')
+    cmap = sns.diverging_palette(20, 220, n=200)
+
+    ans=sns.heatmap(corr, vmin=-1, vmax=1, linewidths=2, cmap=cmap, center=0, square=False, \
+    annot=True,annot_kws={"fontsize":18}, xticklabels=False, yticklabels=False, cbar=False, ax=ax)
+    print corr
+    plt.show()
+
+```
+
+The file ```corr_dataset.py``` for prearinf data set to analyze correlation. 
+
+2. The Second test is used to anaylze the missed heavy hitter (or hidden heavy hitters) due to the disjoint time window. 
+We can call the function ```resultMissedHHFlows``` using ```results.py``` to perform the test.  
 
 
 
