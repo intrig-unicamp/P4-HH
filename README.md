@@ -48,7 +48,7 @@ docker run --rm -v "${output_dir}/output_dir:${output_dir}/output_dir" -w "${out
 
 
 ## How to test IPG based HH detection using Simulator
-To test our algorithm on simulator, we develop a python based simulator to run our HH algorithm using real traces. The steps are as follows.
+To test our algorithm on the simulator, we develop a python-based simulator to run our HH algorithm using real traces. The steps are as follows.
 
 1. Clone the repository
 
@@ -83,10 +83,10 @@ optional arguments:
                         degree of weighting decrease in percentage for EWMA
                         calculation (default: 98)
 ```
-We can set the ```flow definition``` for HH detection. For e.g., if we choose 1, the algorithm will set the flow Id based on 5 tuple. By default, algorithm set 1 for flow definition. Aonother parameter is ```wondow size```. Window size inidicates the measuring time interval in seconds. By default, the window size is set as 1 Sec. 
+We can set the ```flow definition``` for HH detection. E.g., if we choose 1, the algorithm will set the flow Id based on 5-tuple. By default, the algorithm set 1 for flow definition. Another parameter is ```window size```—window size indicates the measuring time interval in seconds. By default, the window size is set as 1 Sec. 
 
 
-Also, for ```HH threshold```, we can set this in Mbps and by default the setting is 5 Mbps. We use Exponential Weighting Moving Average (EWMA) of IPG values of a flow, the degree of weighting decrease can be set, which impact on oeverall accuracy. The default value is 98. The best accuracy can be analyzed by setting  ```weighting decrease``` as 98 or 99. However, for lower HH threhsold, such as 1 Mbps or below, we need to consider ```weighting decrease``` around between 90-95.           
+Also, for the ```HH threshold```, we can set this in Mbps, and by default, the setting is 5 Mbps. We use Exponential Weighting Moving Average (EWMA) of IPG values of a flow, the degree of weighting decrease can be set, which impact on overall accuracy. The default value is 98. The best accuracy can be analyzed by setting  ```weighting decrease``` as 98 or 99. However, for lower HH threshold, such as 1 Mbps or below, we need to consider ```weighting decrease``` around between 90-95.           
 
 Example:
 
@@ -110,7 +110,7 @@ False negative rate: 0.083333
 
 ```cd HH-IPG-Simulator/OUTPUT_DATASET/1_SEC_MAWI_CSV/ ```
 
-5. To gnerate the new CSV files from PCAP traces, we can use the file ```dataset.sh``` by passing three arguments:
+5. To generate the new CSV files from PCAP traces, we can use the file ```dataset.sh``` by passing three arguments:
 
 ```
    DURATION : provide integer value to denote the time-window size in sec
@@ -124,7 +124,7 @@ Example:
 
 ## Tests
 
-As mentioned above for performing accruacy test to get F1 Score, Recall and Precision. There are two other tests which we can performed using file 
+As mentioned above for performing accuracy test to get F1 Score, Recall and Precision. There are two other tests, which we can performed using the file 
 ```results.py```.
 
 1. The first test can be performed to analyze the correlation between ```weighted IPG or Tau metric``` and ```Flow Size```. The following function can be 
@@ -147,9 +147,9 @@ def graphCorrFeatures(ax=None):
 
 ```
 
-The file ```corr_dataset.py``` for prearinf data set to analyze correlation. 
+The file ```corr_dataset.py``` for analyzing the correlation. 
 
-2. The second test is used to anaylze the missed heavy hitter (or hidden heavy hitters) due to the disjoint time window. 
+2. The second test is used to anaylze the missed HHs (or hidden heavy hitters) due to the disjoint time window. 
 We can call the function ```resultMissedHHFlows``` using ```results.py``` to perform the test.  
 
 
