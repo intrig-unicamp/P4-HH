@@ -3,10 +3,23 @@ In this project, we take a completely different approach to detect Heavy-Hitter 
 
 
 ## Implementation in TNA P4-16
-Our proposed IPG based HH detection can be fit with most of the existing packet count based data structures to detect HH. For HH implementation on Tofino hardware (HW) switch using IPG instead of packet count, we leverage the HeavyKeeper(HK) algorithm, you can find HK paper <a href="https://www.usenix.org/conference/atc18/presentation/gong">here</a>, which is amenable to programmable HW. The complete TNA P4-16 code can be find in "P4-TNA-HeavyHitter" folder. In HK-IPG-Method1.p4, where all the HH flows are treated as same. In HK-IPG-Method2.p4, we added 'flowTransition' table which is used to update the tau metric based on IPG value. Using Method2, we can report the HH flows to the controller as soon as possible based on their behavior. In our paper, we evaluated the results with Method2. The code is successfully compiled on Tofino Wedge100BF-32X switch. This version has been successfully tested to detect heavy-hitter flows with CAIDA traces 2016 (10 Gbps link) using TReX Realistic Traffic Generator.
+Our proposed IPG based HH detection can be fit with the most of the existing packet count based data structures to detect HH. For HH implementation on Tofino switch ASIC, we leverage the HeavyKeeper(HK) algorithm, you can find HK paper <a href="https://www.usenix.org/conference/atc18/presentation/gong">here</a>, which is amenable to programmable HW. However, the proposed approach can also be applied for other similar existing algoithms such as <a href="https://dl.acm.org/doi/10.1145/3230543.3230544">Elastic Sketch</a>. The complete TNA P4-16 code can be find in "P4-IPG-HH" folder. The code is successfully compiled on Tofino Wedge100BF-32X switch. This version has been successfully tested to detect heavy-hitter flows with <a href="https://mawi.wide.ad.jp/mawi/ditl/ditl2020-G/">CAIDA16</a>, <a href="https://www.caida.org/catalog/datasets/passive_dataset/">MAWI20</a> and <a href="http://pages.cs.wisc.edu/~tbenson/IMC10_Data.html/">IMC10</a> real traces using <a href="https://trex-tgn.cisco.com/">TReX</a> and <a href="http://osnt.org/">OSNT</a> Realistic Traffic Generator.
+
+There are some pre-defined parameters, which we need to set before the HH evaluation. The current parameter settings can be find in ```P4-IPG-HH/include/constants.p4```.
+
+```
+const bit<16>  IPG_INIT  = 1600;  // for 5 Mbps HH threhsold
+const bit<16>  CONST     = 20;    // contant rate linear increase of weighted IPG 
+const bit<16>  TAU_TH    = 300;   // tau threshold to decide HHs 
+const bit<16>  WRAPTIME  = 4096;  // in microseconds
+```
+We consider ```IPG_INIT``` value same as HH threshold. To convert the HH threhsold in-terms of IPG, we can use the simple calculation ```HH_IPG_TH = (DEFAULT_PKT_SIZE * 8)/HH threhsold)```, here the default packet size is 1000 Bytes. For more details can be find in ```HH-IPG-Simulator/IPG_HeavyKeeper.py```.   
+
+To push the required entries for updating the ```Tau``` metric within the switch, we can consider <a href="https://github.com/p4lang/p4runtime-shell/">P4Runtime shell</a>. 
 
 
-## How to test HH algorithm using Simulator
+
+## How to test IPG based HH detection using Simulator
 To test our algorithm on simulator, we develop a python based simulator to run our HH algorithm using real traces. The steps are as follows.
 
 1. Clone the repository
