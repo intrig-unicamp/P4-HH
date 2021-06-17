@@ -13,10 +13,38 @@ const bit<16>  CONST     = 20;    // contant rate linear increase of weighted IP
 const bit<16>  TAU_TH    = 300;   // tau threshold to decide HHs 
 const bit<16>  WRAPTIME  = 4096;  // in microseconds
 ```
-We consider ```IPG_INIT``` value same as HH threshold. To convert the HH threhsold in-terms of IPG, we can use the simple calculation ```HH_IPG_TH = (DEFAULT_PKT_SIZE * 8)/HH threhsold)```, here the default packet size is 1000 Bytes. For more details can be find in ```HH-IPG-Simulator/IPG_HeavyKeeper.py```.   
+We consider ```IPG_INIT``` value same as HH threshold. To convert the HH threhsold in-terms of IPG, we can use the simple calculation ```HH_IPG_TH = (DEFAULT_PKT_SIZE * 8)/HH threhsold)```, here the default packet size is 1000 Bytes. For more details about calculation can be find in ```HH-IPG-Simulator/IPG_HeavyKeeper.py```.   
 
-To push the required entries for updating the ```Tau``` metric within the switch, we can consider <a href="https://github.com/p4lang/p4runtime-shell/">P4Runtime shell</a>. 
+To push the required entries for updating the ```Tau``` metric within the switch, we can consider <a href="https://github.com/p4lang/p4runtime-shell/">P4Runtime shell</a>. If you use docker image for P4Runtime shell, you can use the ```P4-IPG-HH/p4rt/start_p4runtime.sh``` script for pushing the entries to the switch. 
 
+```
+docker run -it --rm --entrypoint "" \
+     -v P4-IPG-HH:/workspace \
+     -w /workspace p4lang/p4runtime-sh:latest bash \
+     -c "source /p4runtime-sh/venv/bin/activate; \
+     export PYTHONPATH=/p4runtime-sh:/p4runtime-sh/py_out; \
+     python3 -c 'import p4runtime_sh.shell as sh'; \
+     python3 p4rt/p4rt.py" \
+```
+For file ```P4-IPG-HH/p4rt/p4rt.py```, we require ```pipeline_config.pb.bin```, which we can generate using ```P4-IPG-HH/genPipeConf.sh```.  In this file, first we compile the P4 code as follows:
+
+```
+docker run --rm -v "${output_dir}:${output_dir}" -w "${output_dir}" BFSDE_P4C_COMPILER_IMG \
+     bf-p4c --arch tna -g --create-graphs \
+     --verbose 2 -o output_dir --p4runtime-files output_dir/p4info.txt \
+     --p4runtime-force-std-externs IPG-HH.p4 \
+     $@
+```
+
+The above command gets all the compiler outputs to the folder name ```output_dir```. Then we can use the ```IPG-HH.conf``` to generate ```pipeline_config.pb.bin```. 
+
+```
+docker run --rm -v "${output_dir}/output_dir:${output_dir}/output_dir" -w "${output_dir}/output_dir" \
+     ${PIPELINE_CONFIG_BUILDER_IMG} \
+     -p4c_conf_file=./IPG-HH.conf \
+     -bf_pipeline_config_binary_file=./pipeline_config.pb.bin
+```
+ More detail can be find in <a href="https://github.com/stratum/stratum/blob/main/stratum/hal/bin/barefoot/README.pipeline.md">Stratum</a> and <a href="https://github.com/p4lang/p4runtime-shell">P4Runtime-shell</a>. 
 
 
 ## How to test IPG based HH detection using Simulator
