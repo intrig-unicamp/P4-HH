@@ -5,6 +5,8 @@ In this project, we take a completely different approach to detect Heavy-Hitter 
 ## Implementation in TNA P4-16
 Our proposed IPG based HH detection can fit most of the existing packet count-based data structures to detect HH. For HH implementation on Tofino switch ASIC, we leverage the HeavyKeeper(HK) algorithm. You can find HK paper <a href="https://www.usenix.org/conference/atc18/presentation/gong">here</a>, which is amenable to programmable HW. However, the proposed approach can also be applied for other similar existing algorithms such as <a href="https://dl.acm.org/doi/10.1145/3230543.3230544">Elastic Sketch</a>. The complete TNA P4-16 code can be found in the "P4-IPG-HH" folder. The code is successfully compiled on the Tofino Wedge100BF-32X switch. This version has been successfully tested to detect heavy-hitter flows with <a href="https://mawi.wide.ad.jp/mawi/ditl/ditl2020-G/">CAIDA16</a>, <a href="https://www.caida.org/catalog/datasets/passive_dataset/">MAWI20</a> and <a href="http://pages.cs.wisc.edu/~tbenson/IMC10_Data.html/">IMC10</a> real traces using <a href="https://trex-tgn.cisco.com/">TReX</a>, and <a href="http://osnt.org/">OSNT</a> Realistic Traffic Generator.
 
+Also, we performed the experiments using the Tofino switch for 6o Secs, measuring time-interval by considering 1 Sec window-size for HH detection using CAIDA traces. To analyze the accuracy, we use the standard **sliding-window approach** ```HH-IPG-Simulator/slidingWindowHH.py``` to get the true HHs and compared them with our IPG based approach. As a result, we get more than **90% accuracy**.    
+
 There are some pre-defined parameters, which we need to set before the HH evaluation. The current parameter settings can be found in ```P4-IPG-HH/include/constants.p4```.
 
 ```
