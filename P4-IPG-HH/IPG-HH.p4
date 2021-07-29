@@ -43,7 +43,7 @@ control SwitchIngress(
               value = 1;
             }
         };
-        action computeFIndex_setIPGflag() {
+        action computeFIndex() {
             {
              meta.hash_meta.mIndex = hTableIndex.get({hdr.ipv4.srcAddr, hdr.ipv4.dstAddr,hdr.ipv4.protocol,
                                       meta.hash_meta.l4_sport, meta.hash_meta.l4_dport});
@@ -207,9 +207,9 @@ control SwitchIngress(
      /**************************** Apply *********************************************/
       apply {
 
-     /******** Preproecssing for HH detection ************************/
+     /******** Preproecssing for HH detection ********************************/
       computeFlowId()                                                         ;
-      computeFIndex_setIPGflag()                                              ;
+      computeFIndex()                                                         ;
       meta.hash_meta.IPGflag  = rIPGflag_action.execute(meta.hash_meta.mIndex);
       meta.hash_meta.TS = ig_intr_md.ingress_mac_tstamp                       ;
       meta.hash_meta.tauFlag = 2                                              ;
