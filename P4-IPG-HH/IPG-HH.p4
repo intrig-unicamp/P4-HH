@@ -47,7 +47,6 @@ control SwitchIngress(
             {
              meta.hash_meta.mIndex = hTableIndex.get({hdr.ipv4.srcAddr, hdr.ipv4.dstAddr,hdr.ipv4.protocol,
                                       meta.hash_meta.l4_sport, meta.hash_meta.l4_dport});
-             meta.hash_meta.IPGflag  = rIPGflag_action.execute(meta.hash_meta.mIndex);
             }
         }
        /******************************************************************************************/
@@ -209,10 +208,11 @@ control SwitchIngress(
       apply {
 
      /******** Preproecssing for HH detection ************************/
-      computeFlowId()                                      ;
-      computeFIndex_setIPGflag()                           ;
-      meta.hash_meta.TS = ig_intr_md.ingress_mac_tstamp    ;
-      meta.hash_meta.tauFlag = 2;                          ;
+      computeFlowId()                                                         ;
+      computeFIndex_setIPGflag()                                              ;
+      meta.hash_meta.IPGflag  = rIPGflag_action.execute(meta.hash_meta.mIndex);
+      meta.hash_meta.TS = ig_intr_md.ingress_mac_tstamp                       ;
+      meta.hash_meta.tauFlag = 2                                              ;
  
     /************************* Case I *******************************/
       if ( meta.hash_meta.IPGflag == 0 || ig_intr_md.resubmit_flag == 1 ) {
