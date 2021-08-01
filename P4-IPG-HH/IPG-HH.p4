@@ -243,11 +243,8 @@ control SwitchIngress(
           }
           /******************** Case III *******************************************/
          else {
-                  /*** IPGw Calculation  *********************************/
-                  meta.hash_meta.IPGw_flag = rIPGw_action3.execute(meta.hash_meta.mIndex);
-
-                  /****** Resubmission pkt *******************************/
-                  if (meta.hash_meta.IPGw_flag == 1) {
+                  /****** IPGw Calculation and Resubmission pkt ********************/
+                  if (rIPGw_action3.execute(meta.hash_meta.mIndex) == 1) {
                         ig_intr_dprsr_md.resubmit_type = 1;
                   }
                }
