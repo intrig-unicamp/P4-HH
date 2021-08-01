@@ -245,7 +245,7 @@ control SwitchIngress(
          else {
                   /****** IPGw Calculation and Resubmission pkt ********************/
                   if (rIPGw_action3.execute(meta.hash_meta.mIndex) == 1) {
-                        ig_intr_dprsr_md.resubmit_type = 1;
+                      ig_intr_dprsr_md.resubmit_type = 1;
                   }
                }
              }
