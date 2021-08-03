@@ -77,6 +77,7 @@ struct hash_metadata_t {
     bit<11>  mIndex;
     bit<16>  l4_sport;
     bit<16>  l4_dport;
+    bit<8>   resubmit_type;
 }
 
 struct header_t {
