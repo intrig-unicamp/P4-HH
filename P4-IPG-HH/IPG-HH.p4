@@ -213,6 +213,7 @@ control SwitchIngress(
       meta.hash_meta.IPGflag  = rIPGflag_action.execute(meta.hash_meta.mIndex);
       meta.hash_meta.TS = ig_intr_md.ingress_mac_tstamp                       ;
       meta.hash_meta.tauFlag = 2                                              ;
+      meta.hash_meta.resubmit_type = 0                                        ;
  
     /************************* Case I *******************************/
       if ( meta.hash_meta.IPGflag == 0 || ig_intr_md.resubmit_flag == 1 ) {
@@ -246,13 +247,14 @@ control SwitchIngress(
                   /****** IPGw Calculation and Resubmission pkt ********************/
                   if (rIPGw_action3.execute(meta.hash_meta.mIndex) == 1) {
                       ig_intr_dprsr_md.resubmit_type = 1;
+                      meta.hash_meta.resubmit_type   = 1;
                   }
                }
              }
 
         /******* Detected HHs can be dropped or put in lower priority queue or route to ******/
         /********** other path or report to the controller for further actions ***************/
-        if (ig_intr_dprsr_md.resubmit_type == 0) {
+        if (meta.hash_meta.resubmit_type == 0) {
               if (meta.hash_meta.tauFlag == 1) {
                  // inform to the controller
               }
