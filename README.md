@@ -1,5 +1,5 @@
 # Heavy-Hitter Detection using Inter Packet Gap (IPG) 
-In this project, we take a completely different approach to detect Heavy-Hitter flows, keep track of per-flow Inter Packet Gap (IPG) metrics instead of packet counts. HH flows can be characterized by small IPG metrics calculated as a function (e.g., weighted average) of the inter-packet time intervals.
+In this project, we take a completely different approach to detect Heavy-Hitter flows, keep track of per-flow Inter Packet Gap (IPG) metrics instead of packet counts. HH flows can be characterized by small IPG metrics calculated as a function (e.g., weighted average) of the inter-packet time intervals. The related publication of this work in IEEE TNSM can be find <a href="https://ieeexplore.ieee.org/document/9971781">here</a>.
 
 
 ## Implementation in TNA P4-16 using bf-sde-9.3.1
